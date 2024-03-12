@@ -1,4 +1,8 @@
 #!/bin/bash
+#
+#
+#    NOTE, THIS CODE IS NOT COMPLETED YET.
+#
 #This script set regular update using crond
 # 1- Install crond
 # 2- Enable and start crond

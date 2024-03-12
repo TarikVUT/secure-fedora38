@@ -1,5 +1,8 @@
 #!/bin/bash
-
+#
+#
+#    NOTE, THIS CODE IS NOT COMPLETED YET.
+#
 check_command_success(){
 
 command_run="$1"

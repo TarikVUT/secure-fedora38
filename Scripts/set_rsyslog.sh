@@ -1,4 +1,8 @@
 #!/bin/bash
+#
+#
+#    NOTE, THIS CODE IS NOT COMPLETED YET.
+#
 #This script install and configure  rsyslog.
 # 1- Install rsyslog
 # 2- Enable and start rsyslog

@@ -1,4 +1,8 @@
 #!/bin/bash
+#
+#
+#    NOTE, THIS CODE IS NOT COMPLETED YET.
+#
 #This script actives SELinux
 # selinux_path="/etc/selinux/config"
 # set_enforce="SELINUX=enforcing"
