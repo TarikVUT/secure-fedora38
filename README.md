@@ -337,21 +337,50 @@ By following above steps, only users who are members of the password_group (i su
 3- All users who are newly added to the system and are not explicitly assigned to any of the specified groups will be automatically marked as Technicians, without any predefined permissions.
 
 ## 8- Audit Logging
+Log files contain messages about the system, including the kernel, services, and applications that run on it. They contain information that helps solve problems or simply monitor system functions. Fedora uses the systemd system and service manager. Thanks to systemd, messages for most services are now stored in the systemd journal, a binary file that needs to be accessed with the journalctl command.
+For more details refer to [Viewing and Managing Log Files](https://docs.fedoraproject.org/en-US/fedora/latest/system-administrators-guide/monitoring-and-automation/Viewing_and_Managing_Log_Files/)
+
+To install the rsyslog package in Fedora, use the following command:
+```bash
+# dnf install -y rsyslog
+```
+After the installation, start the rsyslog service:
+```bash
+# systemctl start rsyslog
+```
+And enable it to start the system:
+```bash
+# systemctl enable rsyslog.
+```
+### Rotate logs to another server
+When it comes to rotating logs to another server, you can configure rsyslog to forward logs to a remote server. To do this, you need to edit the /etc/rsyslog.conf configuration file or create a new configuration file in the /etc/rsyslog.d/ directory.
+There are several ways to send protocols from client to server.
+
+- Rotation via UDP
+- Rotation via TCP
+- Rotation via RELP
+- Rotation over TLS
+
 ## 9- Regular backup
 
 # Current state of the solution
 
-- [ ]
 - [ ] Dual boot
+- [ ] Secure boot
 - [x] Partition structure and encryption of disks
 - [x] Set a strong password
-- [x] Network configuration
+- [ ] Network configuration
       - [x] OpenSSH
       - [x] OpenSSL
       - [ ] Firewall
-- [ ]
-- [ ]
-- [ ]
-- [ ]
+- [ ] SELinux (Security-Enhanced Linux)
+- [x] Users account permissions
+- [ ] Audit Logging
+      - [ ] UDP
+      - [ ] TCP
+      - [ ] RELP
+      - [ ] OVER TLS
+- [ ] Regular backup
+- [ ] Update (fail-safe update)
 
 
