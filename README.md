@@ -7,7 +7,8 @@ This script is tailored for Fedora 38. It operates under root permissions. If yo
 
 The semester project involves the development of an advanced iteration of the Fedora operating system with an emphasis on modularity and enhanced security with minimal human intervention. The project focuses primarily on increasing resilience against physical and network threats by incorporating features such as disk integrity checking, disk encryption, and a robust firewall.
 Automatic and secure updates will be an essential element to ensure seamless and secure updates at regular intervals. The directory structure will be carefully arranged to reduce the risk of system crashes due to lack of space by thoughtfully allocating partitions for the root directory and its subdirectories.
-## 2- Dual boot
+## 1- Dual boot
+## 2- Secure boot
 ## 3- Partition structure and encryption of disks
 To set up the partitions and encrypt data as described above, adhere to the steps below during the installation procedure:
 
