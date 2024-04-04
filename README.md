@@ -42,6 +42,66 @@ Refer to [Install Fedora 38 with LUKS Full Disk Encryption (FDE)](https://sysgui
 ## 4- Using strong passwords
 ## 5- Network configuration
 ### 1- OpenSSH
+SSH (Secure Shell) is a protocol that facilitates secure communication between two systems using the client-server architecture and allows users to remotely log on to the server's host systems. Unlike other remote communication protocols, such as FTP, Telnet, or rlogin, SSH encrypts the login session so that intruders cannot obtain unencrypted passwords.
+
+By default, SSH is disabled and stopped in Fedora. To enable and run the SSH daemon (sshd), use the following command in the first step.
+Enabling and Starting SSH service at system startup:
+```bash
+# systemctl enable sshd
+# systemctl start sshd
+```
+When these commands are executed, SSH should be enabled and executed in Fedora
+
+Fedora by default uses a set of key exchange algorithms, ciphers, Message Authentication Code (MAC) algorithms, and server host key algorithms. Some of these are obsolete and are designed to establish stable connections with older operating systems that do not support newer alternatives. On our system, we deactivate all unsecured algorithms, ciphers, MACs, etc. The following list represents the output of the nmap command, which reveals the enabled algorithms, ciphers, and MACs in Fedora by default.
+
+```bash
+[root@fedora ~]# nmap --script ssh2-enum-algos -sV -p 22 127.0.0.1
+Starting Nmap 7.93 ( https://nmap.org ) at 2024-02-26 21:05 CET
+Nmap scan report for localhost (127.0.0.1)
+Host is up (0.000089s latency).
+
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 9.0 (protocol 2.0)
+| ssh2-enum-algos: 
+|   kex_algorithms: (10)
+|       curve25519-sha256
+|       curve25519-sha256@libssh.org
+|       ecdh-sha2-nistp256
+|       ecdh-sha2-nistp384
+|       ecdh-sha2-nistp521
+|       diffie-hellman-group-exchange-sha256
+|       diffie-hellman-group14-sha256
+|       diffie-hellman-group16-sha512
+|       diffie-hellman-group18-sha512
+|       kex-strict-s-v00@openssh.com
+|   server_host_key_algorithms: (4)
+|       rsa-sha2-512
+|       rsa-sha2-256
+|       ecdsa-sha2-nistp256
+|       ssh-ed25519
+|   encryption_algorithms: (5)
+|       aes256-gcm@openssh.com
+|       chacha20-poly1305@openssh.com
+|       aes256-ctr
+|       aes128-gcm@openssh.com
+|       aes128-ctr
+|   mac_algorithms: (8)
+|       hmac-sha2-256-etm@openssh.com
+|       hmac-sha1-etm@openssh.com
+|       umac-128-etm@openssh.com
+|       hmac-sha2-512-etm@openssh.com
+|       hmac-sha2-256
+|       hmac-sha1
+|       umac-128@openssh.com
+|       hmac-sha2-512
+|   compression_algorithms: (2)
+|       none
+|_      zlib@openssh.com
+```
+#### SSH vulnerabilities:
+##### 1- [CVE-2020-15778](https://bugzilla.redhat.com/show_bug.cgi?id=1860487)
+
+An error was found in the scp program supplied with the openssh-clients package. An attacker who had the ability to copy files with the scp program to a remote server could execute any command on the remote server by inserting a command in the name of the copied file on the server. This command is executed with the user's rights with which the files were copied to the remote server.
 ### 2- OpenSSL
 ### 3- Firewall
 ## 6- SELinux (Security-Enhanced Linux)
