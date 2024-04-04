@@ -41,6 +41,37 @@ Refer to [Install Fedora 38 with LUKS Full Disk Encryption (FDE)](https://sysgui
 
 ## 4- Using strong passwords
 ## 5- Network configuration
+### 1- OpenSSH
+### 2- OpenSSL
+### 3- Firewall
+## 6- SELinux (Security-Enhanced Linux)
+SELinux is a Linux kernel-integrated security architecture that provides mandatory access controls. SELinux helps prevent unauthorized access, increases system security, and minimizes the impact of security vulnerabilities
+
+
+SELinux increases system security by enforcing access policies and limiting the actions that processes and users can take. Keeping it active helps protect the system from various security threats and potential abuses. Shutting down SELinux can weaken system security.
+
+You can check the state of SELinux by running the sestatus command:
+```bash
+$ sestatus
+```
+
+
+If SELinux is active, "enabled" is displayed on the output. If SELinux is not active, "disabled" is displayed.
+SELinux modes include "Enforcing", "Permissive" and "Disabled". To set SELinux to Enforcing mode:
+```bash
+$ sudo setenforce 1
+```
+
+The above command sets SELinux to Enforcing. In our operating system, this change must be permanent, which can be affected by editing "/etc/selinux/config", changing the line starting with SELINUX= to SELINUX=enforcing.
+```bash
+$ sudo vi /etc/selinux/config
+
+SELINUX=enforcing
+```
+
+## 7- Users account permissions
+## 8- Audit Logging
+## 9- Regular backup
 
 
 
