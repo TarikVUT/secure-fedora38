@@ -456,16 +456,16 @@ __target_port__ is server's port. Use the same value as in the client's configur
 - [x] Partition structure and encryption of disks
 - [x] Set a strong password
 - [ ] Network configuration
-      - [x] OpenSSH
-      - [x] OpenSSL
-      - [ ] Firewall
+     - [x] OpenSSH
+     - [x] OpenSSL
+     - [ ] Firewall
 - [ ] SELinux (Security-Enhanced Linux)
 - [x] Users account permissions
 - [ ] Audit Logging
-      - [ ] UDP
-      - [ ] TCP
-      - [ ] RELP
-      - [ ] OVER TLS
+    - [x] UDP
+    - [x] TCP
+    - [x] RELP
+    - [ ] OVER TLS
 - [ ] Regular backup
 - [ ] Update (fail-safe update)
 
