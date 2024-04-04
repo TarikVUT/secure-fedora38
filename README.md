@@ -253,15 +253,77 @@ SELINUX=enforcing
 
 ## 7- Users account permissions
 The goallsit is to create a hierarchical user structure consisting of three levels:
-    - Administrators
-    - Users
-    - Technicians
+  - Administrators
+  - Users
+  - Technicians
     
 This arrangement is intended to increase system security. These levels correspond to the following groups:
 
   - AdminUsers: Members of this group have permissions equivalent to those of root, including the ability to use OpenSSH. Non-members, on the other hand, are prohibited from using OpenSSH.
   - passwd_group: Users assigned to this group have permissions to change their passwords.
   - Newly added users who do not belong to either AdminUsers or passwd_group are assigned to the Technicians category. Technicians do not have the ability to change their passwords and cannot change their home directories.
+
+To implement this configuration, the following steps are described:
+
+1- Create the AdminUserss group, grant root-level access to members, and grant permission to use OpenSSH.
+- To create the "AdminUser" group in Fedora, usually use the "groupadd" command. Here is the procedure:
+```bash
+# groupadd Admin_User
+```
+This command creates a new group called "AdminUsers" in Fedora.
+
+- After creating the group, you can add users to it using the usermod command:
+
+```bash
+# usermod -aG AdminUser username
+```
+Replace the username with the username of the user you want to add to the "AdminUser" group.
+Note: Note that after adding a user to the "AdminUsers" group, you may need to log out and log in again for the changes to take effect.
+
+- To grant sudo permission to the "AdminUsers" group, create the "AdminUsers" file in "/etc/sudoers.d/" and add the following line to it:
+
+```bash
+%AdminUser ALL=(ALL) ALL
+```
+This line means that any user in the "AdminUser" group can run any command as any user using sudo.
+
+- Set the group for accessing OpenSSH. To allow only users in the "AdminUsers" group to access OpenSSH, you can edit the SSH server configuration file (sshd_config) by adding the line below to the end of the "/etc/ssh/sshd_config" file.
+```bash
+AllowGroups AdminUsers
+```
+Restart the SSH service to apply the changes.
+```bash
+# systemctl restart sshd
+```
+With this configuration, only users who are members of the AdminUsers group will be able to access SSH. Other users will not be able to log in via SSH.
+
+2- Create the "passwd_group" group to make it easier for users assigned to it to change their passwords.
+
+- Change the permissions to /usr/bin/passwd:
+ Open the terminal and run the following command:
+```bash
+sudo chmod o-rx /usr/bin/passwd
+```
+This command removes the read and run permissions for other users in /usr/bin/passwd, preventing them from running passwd.
+
+- Create a group for users who are allowed to change passwords:
+```bash
+sudo groupadd password_group
+```
+- Add users to a new group:
+```bahs
+sudo usermod -aG password_group <username>
+```
+
+- Change passwd group ownership to password_group and set group permissions so that members of this group can run passwd. Run:
+```bash
+# chown root:password_group /usr/bin/passwd
+```
+This command will allow members of the password_group to run passwd.
+
+By following above steps, only users who are members of the password_group (i sudoers) will be able to change their passwords, while others will not be able to access passwd.i to log on via SSH.
+
+3- All users who are newly added to the system and are not explicitly assigned to any of the specified groups will be automatically marked as Technicians, without any predefined permissions.
 
 ## 8- Audit Logging
 ## 9- Regular backup
