@@ -361,6 +361,92 @@ There are several ways to send protocols from client to server.
 - Rotation via RELP
 - Rotation over TLS
 
+#### Rotation via UDP
+Below are steps to configure client-to-server protocol rotation over UDP. Before you continue, make sure the "rsyslog" service is installed and running:
+
+- Enable the UDP port to transfer the protocol from the client to the server on both sides. In our case, use port 514/udp:
+```bash
+# firewall-cmd --permanent --add-port=514/udp
+# firewall-cmd --reload
+```
+
+- On the client side, rotate all protocols to the server by adding the following configuration line at the end of the "/etc/rsyslog.conf" file:
+```bash
+*.* @192.168.0.123:514
+```
+"*.*" indicates all logs.
+"@" indicates the use of the UDP protocol.
+
+On the server side, add the following line at the end of the "/etc/rsyslog.conf" file:
+```bash
+module(load="imudp")
+input(type="imudp" port="514")
+```
+This configuration allows the server to receive logs from the client and store them in the default log directory "/var/log/".
+
+The image below shows the successful transfer of logs from client to server. It appears that the "logger" command was used on the client side for testing purposes.
+
+![](https://github.com/TarikVUT/secure-fedora38/blob/main/Images/test_udp_logs.png)
+
+#### Rotation via TCP
+Rotating the protocol over TCP is similar to the UDP protocol. It starts by enabling the port and ends with configuration on the server side. 
+
+- Enable the TCP port to transfer the protocol from client to server on both sides. In our case, use the port 10514/tcp:
+```bash
+# firewall-cmd --permanent --add-port=10514/tcp
+# firewall-cmd --reload
+```
+
+- On the client side, rotate all protocols to the server by adding the following configuration line at the end of "/etc/rsyslog.conf":
+```bash
+*.* @@192.168.0.123:10514
+```
+"@" indicates TCP usage.
+- On the server side, add the following line to the end of the "/etc/rsyslog.conf" file:
+```bash
+module(load="imtcp")
+input(type="imtcp" port="10514")
+```
+
+The image below shows the successful transfer of logs from client to server. It appears that the "logger" command was used on the client side for testing purposes.
+
+![]()
+
+#### Rotation via RELP
+Using the Reliable Event Logging Protocol (RELP) facilitates the secure transmission and reception of syslog messages over TCP, thereby significantly minimizing the probability of losing a message. RELP ensures reliable transmission of event messages, making it particularly valuable in environments where the loss of such messages is unbearable. To implement RELP, the configuration requires setting the imrelp input module on the server responsible for receiving the logs and the omrelp output module on the client in charge of transferring the logs to the specified logging server.
+
+Some prerequisites must be met before continuing with the RELP configuration:
+Installing the **rsyslog**, **librelp** and **rsyslog-relp** packages on both the server and client systems. Ensuring that the specified port is authorized under SELinux and enabled through firewall settings to facilitate uninterrupted communication.
+- On the client system, create a new .conf file in the /etc/rsyslog.d/ directory named for example relpclient.conf and insert the following content:
+```bash
+module(load="omrelp")
+*.* action(type="omrelp" target="_target_IP_" port="_target_port_")
+```
+__target_IP__ is the server's IP address.
+__target_port__ is the server's port.
+
+Save the changes to /etc/rsyslog.d/relpclient.conf, and restart the rsyslog service.
+```bash
+# systemctl restart rsyslog
+```
+- On the server, create a new .conf file in the /etc/rsyslog.d/ directory named for example relpserv.conf, and insert the following content:
+```bash
+ruleset(name="relp"){
+*.* action(type="omfile" file="_log_path_")
+}
+module(load="imrelp")
+input(type="imrelp" port="_target_port_" ruleset="relp")
+```
+__log_path__ the path for storing messages.
+__target_port__ is server's port. Use the same value as in the client's configuration file.
+
+- Save the changes to /etc/rsyslog.d/relpserv.conff, and restart the rsyslog service.
+```bash
+# systemctl restart rsyslog
+```
+![](https://github.com/TarikVUT/secure-fedora38/blob/main/Images/relp-logs.png)
+#### Rotation via TLS
+
 ## 9- Regular backup
 
 # Current state of the solution
