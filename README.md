@@ -37,6 +37,7 @@ Select the Btrfs Volume from the left panel, click on the + symbol on the right 
 ![My Remote Image](https://github.com/TarikVUT/secure-fedora38/blob/main/Images/8_partitions.png)
 
 The outcome is a system comprising five partitions: /, /boot, /boot/efi, /home, and /var, with encryption applied to /, /home, and /var. It's essential to note that the /boot/efi partition is established for EFI-based systems. Conversely, for BIOS-based systems, a "biosboot" partition of 1 MiB is created instead.
+Refer to [Install Fedora 38 with LUKS Full Disk Encryption (FDE)](https://sysguides.com/fedora-35-luks-full-disk-encryption)
 
 ## 4- Using strong passwords
 ## 5- Network configuration
