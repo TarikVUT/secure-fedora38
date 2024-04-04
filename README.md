@@ -27,7 +27,6 @@ Once on the INSTALLATION DESTINATION screen, select the Advanced Custom (Blivet-
 ![My Remote Image](https://github.com/TarikVUT/secure-fedora38/blob/main/Images/5_crypt.png)
 
 7. Create three subvolumes: root, home, and var. Root will be mounted at /, home at /home, and var at /var.
-
 Select the Btrfs Volume from the left panel, click on the + symbol on the right panel, and create the var subvolume with Mountpoint as /var. Repeat the same process for / and /home.
 ![My Remote Image](https://github.com/TarikVUT/secure-fedora38/blob/main/Images/6_partition.png)
 
