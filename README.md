@@ -449,6 +449,8 @@ __target_port__ is server's port. Use the same value as in the client's configur
 
 ## 9- Regular backup
 
+## 10- Update (fail-safe update)
+
 # Current state of the solution
 
 - [ ] Dual boot
