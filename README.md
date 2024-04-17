@@ -4,23 +4,58 @@ This script is tailored for Fedora 38. It operates under root permissions. If yo
 # secure-fedora38
 ![](https://github.com/TarikVUT/secure-fedora38/blob/main/Images/Desktop.png)
 ## Content
-- [1] [Dual boot](#Dual_boot)
-- [2] Secure boot
-- [3] Partition structure and encryption of disks
-- [x] Set a strong password
-- [ ] Network configuration
-- [ ] SELinux (Security-Enhanced Linux)
-- [x] Users account permissions
-- [ ] Audit Logging
-- [ ] Regular backup
-- [ ] Update (fail-safe update)
+1. [Dual boot](#Dual_boot)
+2. [Secure boot](Secure_boot)
+3. [Partition structure and encryption of disks](Partition_structure)
+4. [Set a strong password]()
+5. [Network configuration]()
+6. [SELinux (Security-Enhanced Linux)]()
+7. [Users account permissions]()
+8. [Audit Logging]()
+9. [Regular backup]()
+10. [Update (fail-safe update)]()
 
 The semester project involves the development of an advanced iteration of the Fedora operating system with an emphasis on modularity and enhanced security with minimal human intervention. The project focuses primarily on increasing resilience against physical and network threats by incorporating features such as disk integrity checking, disk encryption, and a robust firewall.
 Automatic and secure updates will be an essential element to ensure seamless and secure updates at regular intervals. The directory structure will be carefully arranged to reduce the risk of system crashes due to lack of space by thoughtfully allocating partitions for the root directory and its subdirectories.
+
+
 ## 1- Dual boot
 <a name="Dual_boot"></a>
+
+
 ## 2- Secure boot
+<a name="Secure_boot"></a>
+You can protect GRUB with a password in two ways:
+
+- Password is required for modifying menu entries but not for booting existing menu entries.
+- Password is required for modifying menu entries as well as for booting existing menu entries.
+
+### Setting password protection only for modifying menu entries
+1- Issue the grub2-setpassword command as root.
+```bash
+# grub2-setpassword
+```
+2- Enter the password for the user and press the Enter key to confirm the password.
+```bash
+Enter password:
+Confirm the password:
+```
+### Setting password protection for modifying and booting menu entries
+1- Open the Boot Loader Specification (BLS) file for boot entry you want to modify from the /boot/loader/entries/ directory.
+
+2- Find the line beginning with grub_users. This parameter passes extra arguments to menuentry.
+
+3- Set the grub_users attribute to the user name that is allowed to boot the entry besides the superusers, by default this user is root. Here is a sample configuration file:
+```bash
+grub_users root
+grub_arg --unrestricted
+grub_class kernel
+```
+> [!NOTE]
+> For more information refer to [Protecting GRUB with a password](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/managing_monitoring_and_updating_the_kernel/assembly_protecting-grub-with-a-password_managing-monitoring-and-updating-the-kernel) .
+
 ## 3- Partition structure and encryption of disks
+<a name="Partition_structure"></a>
 To set up the partitions and encrypt data as described above, adhere to the steps below during the installation procedure:
 
 1. Begin by booting your computer with the Fedora 38 Installer media in UEFI mode. Navigate to the "Install to Hard Drive" option on the Welcome to Fedora screen. Choose your preferred language. In the INSTALLATION SUMMARY screen, configure your Keyboard, Time & Date, and proceed to the Installation Destination.
