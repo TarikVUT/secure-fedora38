@@ -228,13 +228,16 @@ The way to mitigate the vulnerability of CVE-2020-15778 is to change the SCP pri
 ```bash
 chmod 0000 /usr/bin/scp
 ```
-Please note that this solution is temporary and will revert to the original permissions in case of reinstallation or update of openssh-clients.
+> [!IMPORTANT]
+> Please note that this solution is temporary and will revert to the original permissions in case of reinstallation or update of openssh-clients.
 
 ##### 2- [CVE-2023-48795/ HMAC (SHA1)](https://bugzilla.redhat.com/show_bug.cgi?id=2254210)
+
 An SSH channel integrity error was found. By manipulating sequential numbers during a handshake, an attacker can delete the initial messages of a secure channel without causing a MAC failure. For example, an attacker could disable the ping extension, rendering inoperable the new countermeasure in OpenSSH 9.5 against attacks by keystroke timing. SHA1 is no longer considered safe and must be disabled.
-Mitigation of impacts:
-As an alternative, less invasive countermeasure, the affected chacha20-poly1305 cipher modes and all Mac-based encryption variants (generic EtM) can be (temporarily) disabled. Some cipher modes, in particular AES-GCM, are not affected and can continue to be used unchanged.
+Mitigation of impacts:\\
+As an alternative, less invasive countermeasure, the affected chacha20-poly1305 cipher modes and all Mac-based encryption variants (generic EtM) can be (temporarily) disabled. Some cipher modes, in particular AES-GCM, are not affected and can continue to be used unchanged.\\
 Deactivation of these ciphers and MACs can be done through cryptographic policies. System-wide cryptographic policies function as basic configurations of cryptographic subsystems and include protocols such as TLS, IPsec, SSH, DNSsec and Kerberos. These policies offer a concise selection from which administrators can choose. To achieve this modification, sub-policies with the following content can be implemented.
+
 ```bash
 cipher@SSH = -CHACHA20-POLY1305
 mac@ssh = -SHA1
