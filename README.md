@@ -15,6 +15,8 @@
 9. [Regular backup]()
 10. [Update (fail-safe update)]()
 
+-----------------------------------
+
 The semester project involves the development of an advanced iteration of the Fedora operating system with an emphasis on modularity and enhanced security with minimal human intervention. The project focuses primarily on increasing resilience against physical and network threats by incorporating features such as disk integrity checking, disk encryption, and a robust firewall.
 Automatic and secure updates will be an essential element to ensure seamless and secure updates at regular intervals. The directory structure will be carefully arranged to reduce the risk of system crashes due to lack of space by thoughtfully allocating partitions for the root directory and its subdirectories.
 
@@ -53,6 +55,10 @@ grub_class kernel
 ```
 > [!NOTE]
 > For more information refer to [Protecting GRUB with a password](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/managing_monitoring_and_updating_the_kernel/assembly_protecting-grub-with-a-password_managing-monitoring-and-updating-the-kernel) .
+
+### The result
+
+https://github.com/TarikVUT/secure-fedora38/assets/78847793/116d3576-cf30-4739-9f13-f739783912fb
 
 ## 3- Partition structure and encryption of disks
 <a name="Partition_structure"></a>
