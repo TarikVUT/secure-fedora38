@@ -5,15 +5,15 @@
 ![](https://github.com/TarikVUT/secure-fedora38/blob/main/Images/Desktop.png)
 ## Content
 1. [Dual boot](#Dual_boot)
-2. [Secure boot](Secure_boot)
-3. [Partition structure and encryption of disks](Partition_structure)
-4. [Set a strong password]()
-5. [Network configuration]()
-6. [SELinux (Security-Enhanced Linux)]()
-7. [Users account permissions]()
-8. [Audit Logging]()
-9. [Regular backup]()
-10. [Update (fail-safe update)]()
+2. [Secure boot](#Secure_boot)
+3. [Partition structure and encryption of disks](#Partition_structure)
+4. [Set a strong password](#password)
+5. [Network configuration](#Network)
+6. [SELinux (Security-Enhanced Linux)](#SELinux)
+7. [Users account permissions](#account_permissions)
+8. [Audit Logging](#Audit_Logging)
+9. [Regular backup](#Regular_backup)
+10. [Update (fail-safe update)](#fail-safe)
 
 -----------------------------------
 
@@ -105,6 +105,7 @@ The outcome is a system comprising five partitions: /, /boot, /boot/efi, /home, 
 Refer to [Install Fedora 38 with LUKS Full Disk Encryption (FDE)](https://sysguides.com/fedora-35-luks-full-disk-encryption)
 
 ## 4- Set a strong password
+<a name="password"></a>
 In Fedora 38 the default configuration file for pam_pwquality is /etc/security/pwquality.conf.\\
 The examples provided are for only illustrative purposes, for more information refer to man pwquality.conf.\\
 Insert the following option in /etc/security/pwquality.conf or create the .conf file in /etc/security/pwquality.d:\\
@@ -162,6 +163,7 @@ difok = 5
 
 
 ## 5- Network configuration
+<a name="Network"></a>
 ### 1- OpenSSH
 SSH (Secure Shell) is a protocol that facilitates secure communication between two systems using the client-server architecture and allows users to remotely log on to the server's host systems. Unlike other remote communication protocols, such as FTP, Telnet, or rlogin, SSH encrypts the login session so that intruders cannot obtain unencrypted passwords.
 
@@ -351,6 +353,7 @@ In our system we use Uncomplicated Firewall(ufw), which already solves the above
 
 
 ## 6- SELinux (Security-Enhanced Linux)
+<a name="SELinux"></a>
 SELinux is a Linux kernel-integrated security architecture that provides mandatory access controls. SELinux helps prevent unauthorized access, increases system security, and minimizes the impact of security vulnerabilities
 
 
@@ -376,6 +379,7 @@ SELINUX=enforcing
 ```
 
 ## 7- Users account permissions
+<a name="account_permissions"></a>
 The goallsit is to create a hierarchical user structure consisting of three levels:
   - Administrators
   - Users
@@ -450,6 +454,7 @@ By following above steps, only users who are members of the password_group (i su
 3- All users who are newly added to the system and are not explicitly assigned to any of the specified groups will be automatically marked as Technicians, without any predefined permissions.
 
 ## 8- Audit Logging
+<a name="Audit_Logging"></a>
 Log files contain messages about the system, including the kernel, services, and applications that run on it. They contain information that helps solve problems or simply monitor system functions. Fedora uses the systemd system and service manager. Thanks to systemd, messages for most services are now stored in the systemd journal, a binary file that needs to be accessed with the journalctl command.
 For more details refer to [Viewing and Managing Log Files](https://docs.fedoraproject.org/en-US/fedora/latest/system-administrators-guide/monitoring-and-automation/Viewing_and_Managing_Log_Files/)
 
@@ -562,8 +567,10 @@ __target_port__ is server's port. Use the same value as in the client's configur
 Refer to [Configuring a remote logging solution](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/9/html/security_hardening/assembly_configuring-a-remote-logging-solution_security-hardening)
 
 ## 9- Regular backup
+<a name="Regular_backup"></a>
 
 ## 10- Update (fail-safe update)
+<a name="fail-safe"></a>
 
 # Current state of the solution
 
