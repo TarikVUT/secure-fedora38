@@ -222,6 +222,7 @@ PORT   STATE SERVICE VERSION
 |_      zlib@openssh.com
 ```
 #### SSH vulnerabilities:
+
 ##### 1- [CVE-2020-15778](https://bugzilla.redhat.com/show_bug.cgi?id=1860487)
 
 An error was found in the scp program supplied with the openssh-clients package. An attacker who had the ability to copy files with the scp program to a remote server could execute any command on the remote server by inserting a command in the name of the copied file on the server. This command is executed with the user's rights with which the files were copied to the remote server.
