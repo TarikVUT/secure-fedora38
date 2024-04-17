@@ -585,20 +585,20 @@ Refer to [Configuring a remote logging solution](https://access.redhat.com/docum
 # Current state of the solution
 
 - [ ] Dual boot
-- [ ] Secure boot
+- [x] Secure boot
 - [x] Partition structure and encryption of disks
 - [x] Set a strong password
-- [ ] Network configuration
+- [x] Network configuration
      - [x] OpenSSH
      - [x] OpenSSL
-     - [ ] Firewall
-- [ ] SELinux (Security-Enhanced Linux)
+     - [x] Firewall
+- [x] SELinux (Security-Enhanced Linux)
 - [x] Users account permissions
-- [ ] Audit Logging
+- [x] Audit Logging
     - [x] UDP
     - [x] TCP
     - [x] RELP
-    - [ ] OVER TLS
+    - [x] OVER TLS
 - [ ] Regular backup
 - [ ] Update (fail-safe update)
 
