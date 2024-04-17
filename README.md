@@ -559,6 +559,7 @@ __target_port__ is server's port. Use the same value as in the client's configur
 ```
 ![](https://github.com/TarikVUT/secure-fedora38/blob/main/Images/relp-logs.png)
 #### Rotation via TLS
+Refer to [Configuring a remote logging solution](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/9/html/security_hardening/assembly_configuring-a-remote-logging-solution_security-hardening)
 
 ## 9- Regular backup
 
