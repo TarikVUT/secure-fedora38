@@ -1,5 +1,7 @@
 #!/bin/bash
 #
+# Author: Tarik Alkanan
+# Date: 10.04.2024
 #
 #    NOTE, THIS CODE IS NOT COMPLETED YET.
 #
@@ -22,20 +24,15 @@
 # /etc/systemd/logind.conf
 
 
-
-
-#cve_file_path="/etc/crypto-policies/policies/modules/CVE-2023-48795.pmod"
-#ssh_file_path="/etc/ssh/sshd_config.d/00-secure.conf"
-#logind_path="/etc/systemd/logind.conf"
-cve_file_path="/home/student/Desktop/tmp/CVE-2023-48795.pmod"
-ssh_file_path="/home/student/Desktop/tmp/00-secure.conf"
-logind_path="/home/student/Desktop/tmp/logind.conf"
+cve_file_path="/etc/crypto-policies/policies/modules/CVE-2023-48795.pmod"
+ssh_file_path="/etc/ssh/sshd_config.d/00-secure.conf"
+logind_path="/etc/systemd/logind.conf"
 
 
 CVE_2023_48795="#Disable CHACHA20-POLY1305
 cipher@SSH = -CHACHA20-POLY1305
 #Disable MACs SHA1
-mac@ssh = -SHA1
+mac@ssh = -*-SHA1
 #Disable all etm MACs
 ssh_etm = 0"
 
@@ -60,23 +57,30 @@ else
 	exit 0
 fi
 }
-echo -e "1th phase"
+main(){
+
+echo -e "Install openssh"
+
+check_command_success "dnf install -y openssh" "----> The openssh was installed successfully <----" ">>>> Failed to install openssh <<<<"
+
 # Enable openSSH
-##check_command_success "systemctl enable sshd" "----> The sshd was enabled successfully <----" ">>>> Failed to enable sshd <<<<"
-
+echo -e "Enable openSSH"
+check_command_success "systemctl enable sshd" "----> The sshd was enabled successfully <----" ">>>> Failed to enable sshd <<<<"
+echo
 # Start openSSH
-##check_command_success "systemctl start sshd" "----> The sshd started successfully <----" ">>>> Failed to start sshd, Check systemctl status sshd <<<<"
-
+echo -e "Start openSSH"
+check_command_success "systemctl start sshd" "----> The sshd started successfully <----" ">>>> Failed to start sshd, Check systemctl status sshd <<<<"
+echo
 # Status openSSH
 systemctl status sshd
-
-echo -e "2th phase"
-
+echo 
+echo -e "Mitigation CVE-2020-15778"
 # Mitigation CVE-2020-15778
-###check_command_success "chmod 0000 /usr/bin/scp" "----> The scp was disabled successfully <----" ">>>> Failed to disable scp <<<<"
+check_command_success "chmod 0000 /usr/bin/scp" "----> The scp was disabled successfully <----" ">>>> Failed to disable scp <<<<"
 
-echo -e "3th phase"
+echo
 
+echo -e "Mitigation CVE-2023-48795/ HMAC (SHA1)"
 # Mitigation CVE-2023-48795/ HMAC (SHA1)
 
 
@@ -88,8 +92,26 @@ else
   # Create the file and enter text
   echo -e "$CVE_2023_48795" > "$cve_file_path"
 
-  echo "File $file_path created with the text \"$CVE_2023_48795\"."
+  echo -e "File $file_path created with the text\n \"$CVE_2023_48795\"."
 fi
+
+if update-crypto-policies --show | grep -q "CVE-2023-48795"; 
+  
+  then
+
+    echo "CVE-2023-48795 is present in the crypto-policy."
+
+  else
+
+    echo "CVE-2023-48795 is not present in the output."
+    check_command_success "update-crypto-policies --set $(update-crypto-policies --show):CVE-2023-48795" "----> The CVE_2023_48795 sub-policy was applied successfully <----" ">>>> Failed to apply CVE_2023_48795 sub-policy <<<<"
+    echo
+
+    echo -e "The applied crypto-policy: " 
+    update-crypto-policies --show
+
+fi
+
 
 #################################################
 echo -e "4th phase"
@@ -109,7 +131,7 @@ else
 fi
 
 ###################################################
-#Set SSH Client Alive Interval 900 
+#Set SSH Client Alive Interval 
 echo -e "5th phase"
 
 
@@ -140,6 +162,9 @@ else
   echo "The interval will not change."
 fi
 fi
+}
+
+main
 
 
 
