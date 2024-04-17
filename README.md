@@ -479,6 +479,8 @@ There are several ways to send protocols from client to server.
 - Rotation via RELP
 - Rotation over TLS
 
+---------------------------- 
+ 
 #### Rotation via UDP
 Below are steps to configure client-to-server protocol rotation over UDP. Before you continue, make sure the "rsyslog" service is installed and running:
 
@@ -506,6 +508,8 @@ The image below shows the successful transfer of logs from client to server. It 
 
 ![](https://github.com/TarikVUT/secure-fedora38/blob/main/Images/test_udp_logs.png)
 
+---------------------------- 
+
 #### Rotation via TCP
 Rotating the protocol over TCP is similar to the UDP protocol. It starts by enabling the port and ends with configuration on the server side. 
 
@@ -529,6 +533,8 @@ input(type="imtcp" port="10514")
 The image below shows the successful transfer of logs from client to server. It appears that the "logger" command was used on the client side for testing purposes.
 
 ![]()
+
+---------------------------- 
 
 #### Rotation via RELP
 Using the Reliable Event Logging Protocol (RELP) facilitates the secure transmission and reception of syslog messages over TCP, thereby significantly minimizing the probability of losing a message. RELP ensures reliable transmission of event messages, making it particularly valuable in environments where the loss of such messages is unbearable. To implement RELP, the configuration requires setting the imrelp input module on the server responsible for receiving the logs and the omrelp output module on the client in charge of transferring the logs to the specified logging server.
@@ -563,6 +569,9 @@ __target_port__ is server's port. Use the same value as in the client's configur
 # systemctl restart rsyslog
 ```
 ![](https://github.com/TarikVUT/secure-fedora38/blob/main/Images/relp-logs.png)
+
+---------------------------- 
+
 #### Rotation via TLS
 Refer to [Configuring a remote logging solution](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/9/html/security_hardening/assembly_configuring-a-remote-logging-solution_security-hardening)
 
