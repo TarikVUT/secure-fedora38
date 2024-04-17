@@ -3,11 +3,22 @@ This script is tailored for Fedora 38. It operates under root permissions. If yo
 
 # secure-fedora38
 ![](https://github.com/TarikVUT/secure-fedora38/blob/main/Images/Desktop.png)
-
+## Content
+- [1] [Dual boot](#Dual_boot)
+- [2] Secure boot
+- [3] Partition structure and encryption of disks
+- [x] Set a strong password
+- [ ] Network configuration
+- [ ] SELinux (Security-Enhanced Linux)
+- [x] Users account permissions
+- [ ] Audit Logging
+- [ ] Regular backup
+- [ ] Update (fail-safe update)
 
 The semester project involves the development of an advanced iteration of the Fedora operating system with an emphasis on modularity and enhanced security with minimal human intervention. The project focuses primarily on increasing resilience against physical and network threats by incorporating features such as disk integrity checking, disk encryption, and a robust firewall.
 Automatic and secure updates will be an essential element to ensure seamless and secure updates at regular intervals. The directory structure will be carefully arranged to reduce the risk of system crashes due to lack of space by thoughtfully allocating partitions for the root directory and its subdirectories.
 ## 1- Dual boot
+<a name="Dual_boot"></a>
 ## 2- Secure boot
 ## 3- Partition structure and encryption of disks
 To set up the partitions and encrypt data as described above, adhere to the steps below during the installation procedure:
