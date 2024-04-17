@@ -60,6 +60,7 @@ grub_class kernel
 
 https://github.com/TarikVUT/secure-fedora38/assets/78847793/116d3576-cf30-4739-9f13-f739783912fb
 
+
 ## 3- Partition structure and encryption of disks
 <a name="Partition_structure"></a>
 To set up the partitions and encrypt data as described above, adhere to the steps below during the installation procedure:
@@ -104,6 +105,62 @@ The outcome is a system comprising five partitions: /, /boot, /boot/efi, /home, 
 Refer to [Install Fedora 38 with LUKS Full Disk Encryption (FDE)](https://sysguides.com/fedora-35-luks-full-disk-encryption)
 
 ## 4- Set a strong password
+In Fedora 38 the default configuration file for pam_pwquality is /etc/security/pwquality.conf.
+The examples provided are for only illustrative purposes, for more information refer to man pwquality.conf.
+Insert the following option in /etc/security/pwquality.conf or create the .conf file in /etc/security/pwquality.d:
+
+1- Password size (Minimum acceptable length for the new password).
+```bash
+minlen = 12
+```
+2- Maximum credit for having digits in the password.
+```bash
+dcredit = -1
+```
+3- Maximum credit for having uppercase characters in the password.
+```bash
+ucredit = -1
+```
+4- Maximum credit for having lowercase characters in the password.
+```bash
+lcredit = 1
+```
+5- Maximum credit for having other characters in the password.
+```bash
+ocredit = 1
+```
+>!Note
+>on credits: The credit values configured for dcredit, ucredit, lcredit & ocredit are only for illustrative purposes. The credit values can be configured in different ways as per requirements. The credit values can be set as follows:
+> - Credit Value > 0: Maximum credit for having respective characters in the new password.
+> - Credit Value < 0: Minimum mandatory credit required for having respective characters in the new password.
+> - Credit Value = 0: No mandatory requirement for having the respective character class in the new password.
+
+6- Minimum number of required character classes in the password.
+```bash
+minclass = 1
+```
+7- Maximum number of allowed consecutive same characters in the password.
+```bash
+maxrepeat = 2
+```
+8- Maximum number of allowed consecutive characters of the same class in the password.
+```bash
+maxclassrepeat = 2
+```
+9- Set the number of characters from the old password that must not be present in the new password.
+```bash
+difok = 5
+```
+>!Note
+>This option will not work for root as root is not asked for an old password so the checks that compare the old and new password are not performed.
+>For more information refer to [Passphrase policy](https://docs.fedoraproject.org/en-US/fesco/Passphrase_policy/)
+
+
+
+
+
+
+
 ## 5- Network configuration
 ### 1- OpenSSH
 SSH (Secure Shell) is a protocol that facilitates secure communication between two systems using the client-server architecture and allows users to remotely log on to the server's host systems. Unlike other remote communication protocols, such as FTP, Telnet, or rlogin, SSH encrypts the login session so that intruders cannot obtain unencrypted passwords.
