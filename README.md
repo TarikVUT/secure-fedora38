@@ -1,7 +1,7 @@
 > [!WARNING]
 > This script is tailored for Fedora 38. It operates under root permissions. If you lack extensive Linux expertise, refrain from altering its contents. Take the time to thoroughly understand the script's functionality before deciding whether to execute it.
 
-# secure-fedora38
+# Secure-fedora38
 ![](https://github.com/TarikVUT/secure-fedora38/blob/main/Images/Desktop.png)
 ## Content
 1. [Dual boot](#Dual_boot)
