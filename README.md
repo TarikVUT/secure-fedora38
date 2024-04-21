@@ -585,6 +585,60 @@ To ensure that the system is always up to date without major intervention, we ne
 
 To guarantee the security and safety of the system, it will undergo a daily security update and a comprehensive update every week. Additionally, system backups will occur daily, scheduled to run before each update.
 
+### Installation, enable and start cron
+
+```bash
+# dnf install cronie -y 
+# systemctl enable crond
+# systemctl start crond
+```
+To plan a daily security update using the  /etc/Cron.daily/, we can create a script that makes the update.
+- Creating a script called daily_system_Update.sh
+```bash
+#!/bin/bash
+
+# Here you should run the command to backup the system.
+# The command will depend on the method you use to back up your system
+#
+# The command 
+#
+# Update the package repositories
+sudo dnf -y update --security
+
+# Log the update processe
+echo "Daily system update executed on $(date)" >> /var/log/daily_system_update.log
+```
+To plan a weekly update using the  /etc/Cron.weekly/, we can create a script that makes the update.
+- Creating a script called weekly_system_Update.sh
+```bash
+#!/bin/bash
+# Here you should run the command to backup the system.
+# The command will depend on the method you use to back up your system
+#
+# The command 
+#
+# Update the package repositories
+sudo dnf -y update
+
+# Log the update processe
+echo "Weekly system update executed on $(date)" >> /var/log/weekly_system_update.log
+
+```
+Make sure the scripts are executable:
+```bash
+# chmod +x daily_system_update.sh.
+# chmod +x weekly_system_update.sh.
+```
+Move the "daily_system_Update.sh" to the /etc/cron.daily/, and the script "weekly_system_update.sh" to the /etc/cron.weekly/ directory:
+```bash
+# mv daily_system_update.sh /etc/cron.daily/
+# mv weekly_system_update.sh /etc/cron.weekly/
+```
+Now the script for the security update will run every day and the script for the whole system update will run weekly and update the system. The results can be checked in the protocol file (in this example /var/log/daily_system_update.log and /var/log/weekly_system_update.log.)
+> [!WARNING]
+> Critical note: Before running the update create the backup for the system.
+
+
 # Current state of the solution
 
 - [ ] Dual boot
