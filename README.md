@@ -636,7 +636,7 @@ Move the "daily_system_Update.sh" to the /etc/cron.daily/, and the script "weekl
 ```
 Now the script for the security update will run every day and the script for the whole system update will run weekly and update the system. The results can be checked in the protocol file (in this example /var/log/daily_system_update.log and /var/log/weekly_system_update.log.)
 > [!WARNING]
-> Critical note: Before running the update create the backup for the system.
+> Critical note: Prioritize system backup before commencing the update process. This precautionary measure safeguards against potential failures during the update. In the event of a system crash, recovery can be swiftly facilitated using the backup. This approach supersedes the OSTree update method.
 
 
 # Current state of the solution
