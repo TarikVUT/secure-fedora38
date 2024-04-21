@@ -23,6 +23,8 @@ Automatic and secure updates will be an essential element to ensure seamless and
 
 ## 1- Dual boot
 <a name="Dual_boot"></a>
+Our system will feature dual boot functionality, comprising two operating systems. 
+The primary system will serve as the main operating environment, while the secondary system will be a minimal setup devoid of a graphical user interface (GUI), facilitating SSH connectivity.
 
 
 ## 2- Secure boot
