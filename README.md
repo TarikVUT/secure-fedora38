@@ -580,8 +580,53 @@ Refer to [Configuring a remote logging solution](https://access.redhat.com/docum
 
 ## 9- Regular backup
 <a name="Regular_backup"></a>
+When a software or hardware failure occurs, the system administrator must address three tasks to restore the system to a fully functional state in the new hardware environment:
+1- booting a rescue system on the new hardware
+2- replicating the original storage layout
+3- restoring user and system files
 
-## 10- Update (fail-safe update)
+### How to set up ReaR to backup with NFS method
+Take the following steps on the NFS system.
+1- Install the nfs-utils package.
+```bash
+# yum install nfs-utils
+```
+2-  Create and export a directory on the NFS system. In this example, /storage is the exported directory.
+```bash
+# mkdir /storage
+
+# cat /etc/exports
+/storage        *(fsid=0,rw,sync,no_root_squash,no_subtree_check,crossmnt)
+```
+3- Start NFS server.
+```bash
+# systemctl start nfs-server
+```
+Take the following steps on the client system that you intend to backup.
+
+1- Install the rear and nfs-utils packages.
+```bash
+# yum install rear nfs-utils
+```
+2- Modify the /etc/rear/local.conf configuration file on the client system to reflect the following settings. In this example, the local IP address 192.168.56.1 represents the NFS system.
+```bash
+# cat /etc/rear/local.conf
+OUTPUT=ISO
+OUTPUT_URL=nfs://192.168.56.1/storage
+BACKUP=NETFS
+BACKUP_URL=nfs://192.168.56.1/storage
+NETFS_KEEP_OLD_BACKUP_COPY=y
+```
+3- Run the following command to generate the disaster recovery system and backup files.
+```bash
+# rear -d -v mkbackup
+```
+
+
+> [!IMPORTANT]
+> For details information refer [ Relax-and-Recover (ReaR)](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/system_administrators_guide/ch-relax-and-recover_rear)
+
+## 10- System update 
 <a name="fail-safe"></a>
 To ensure that the system is always up to date without major intervention, we need to configure automatic updates using the Cronjob tool. Manual updates can lead to missing critical updates and~you need to have the latest updates and patches to keep the device safe from both security flaws and software errors. Cronjobs makes this easier by performing tasks automatically at certain intervals without any user intervention.
 
