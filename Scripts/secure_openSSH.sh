@@ -28,6 +28,8 @@ cve_file_path="/etc/crypto-policies/policies/modules/CVE-2023-48795.pmod"
 ssh_file_path="/etc/ssh/sshd_config.d/00-secure.conf"
 logind_path="/etc/systemd/logind.conf"
 
+logind_path_backup="/root/secure_backup/logind.conf.bkp"
+
 
 CVE_2023_48795="#Disable CHACHA20-POLY1305
 cipher@SSH = -CHACHA20-POLY1305
@@ -40,6 +42,17 @@ ssh_config="RequiredRSASize 2048
 PermitRootLogin no
 PermitEmptyPasswords no"
 
+backup(){
+
+# Check if the config file exists
+if [ -f "$logind_path_backup" ]; then
+    echo "$logind_path_backup backup for $logind_path exist"
+else
+    echo "$logind_path_backup does not exist, the backup will be created for $logind_path"
+    cp $logind_path $logind_path_backup
+fi
+
+}
 
 check_command_success(){
 
@@ -58,6 +71,16 @@ else
 fi
 }
 main(){
+
+echo -e "
+ ____                              ___                   ____ ____  _   _ 
+/ ___|  ___  ___ _   _ _ __ ___   / _ \ _ __   ___ _ __ / ___/ ___|| | | |
+\___ \ / _ \/ __| | | | '__/ _ \ | | | | '_ \ / _ \ '_ \\___ \___ \| |_| |
+ ___) |  __/ (__| |_| | | |  __/ | |_| | |_) |  __/ | | |___) |__) |  _  |
+|____/ \___|\___|\__,_|_|  \___|  \___/| .__/ \___|_| |_|____/____/|_| |_|
+                                       |_|                                
+
+"
 
 echo -e "Install openssh"
 
@@ -140,9 +163,9 @@ if grep -q '^StopIdleSessionSec' $logind_path; then
   existing_config=$(grep -i '^StopIdleSessionSec' $logind_path) 
   
   echo $existing_config
-  read -p "Do you want to change the interval? (yes/no): " answer
+  read -p "Do you want to change the interval? (y/n): " answer
 
-if [ "$answer" == "yes" ]; then
+if [ "$answer" == "y" ]; then
   read -p "Enter the interval " interval
   sed -i "s/^${existing_config}/StopIdleSessionSec=$interval/" "$logind_path"
   
@@ -152,9 +175,12 @@ fi
   
 else
   echo "The config does not exist"
-  read -p "Do you want to set the interval? (yes/no): " answer
+  read -p "Do you want to set the interval? (y/n): " answer
 
-if [ "$answer" == "yes" ]; then
+if [ "$answer" == "y" ]; then
+
+  backup
+
   read -p "Enter the interval " interval
   echo "StopIdleSessionSec=$interval" >> $logind_path
   echo -e "The interval( $interval ) was set in $logind_path "

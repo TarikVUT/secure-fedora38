@@ -5,6 +5,22 @@
 
 # This script installs and configures rsyslog.
 
+rsyslog_config="/etc/rsyslog.conf"
+backup_rsyslog_config="/root/secure_backup/rsyslog.conf.bkp"
+
+backup(){
+
+# Check if the config file exists
+if [ -f "$backup_rsyslog_config" ]; then
+    echo "$backup_rsyslog_config backup for $rsyslog_config exist"
+else
+    echo "$backup_rsyslog_config does not exist, the backup will be created for $rsyslog_config"
+    cp $rsyslog_config $backup_rsyslog_config
+fi
+
+}
+
+
 # Function to check the success of a command
 check_command_success() {
     command_run="$1"
@@ -33,8 +49,11 @@ send_logs_udp() {
     check_command_success "firewall-cmd --permanent --add-port=$server_port/udp" "----> The port $server_port/udp was added successfully <----" ">>>> Failed to add $server_port/udp port <<<<"
     check_command_success "firewall-cmd --reload" "----> The firewall-cmd was reloaded successfully <----" ">>>> Failed to reload firewall-cmd <<<<"
 
+    #create backup for /etc/rsyslog.conf
+    backup
+
     # Adding server address and port to rsyslog configuration
-    echo "*.* @$server_ip_address:$server_port" >> /etc/rsyslog.conf
+    echo "*.* @$server_ip_address:$server_port" >> $rsyslog_config
 
     # Instructions for server configuration
     echo -e "The server_udp_rsyslog_config file was created in /root/. Add the config on the server side:"
@@ -43,7 +62,7 @@ send_logs_udp() {
     Add the $server_port/udp to the firewall using: firewall-cmd --permanent --add-port=$server_port/udp 
     Reload the firewall using: firewall-cmd --reload
 
-    Add the below lines to /etc/rsyslog.conf:
+    Add the below lines to $rsyslog_config:
     module(load="imudp")
     input(type="imudp" port="$server_port") 
 
@@ -64,8 +83,11 @@ send_logs_tcp() {
     check_command_success "firewall-cmd --permanent --add-port=$server_port/tcp" "----> The port $server_port/tcp was added successfully <----" ">>>> Failed to add $server_port/tcp port <<<<"
     check_command_success "firewall-cmd --reload" "----> The firewall-cmd was reloaded successfully <----" ">>>> Failed to reload firewall-cmd <<<<"
 
+    #create backup for /etc/rsyslog.conf
+    backup
+
     # Adding server address and port to rsyslog configuration
-    echo "*.* @@$server_ip_address:$server_port" >> /etc/rsyslog.conf
+    echo "*.* @@$server_ip_address:$server_port" >> $rsyslog_config
 
     # Instructions for server configuration
     echo -e "The server_tcp_rsyslog_config file was created in /root/. Add the config on the server side:"
@@ -74,7 +96,7 @@ send_logs_tcp() {
     Add the $server_port/tcp to the firewall using: firewall-cmd --permanent --add-port=$server_port/tcp 
     Reload the firewall using: firewall-cmd --reload
 
-    Add the below lines to /etc/rsyslog.conf:
+    Add the below lines to $rsyslog_config:
     module(load="imtcp")
     input(type="imtcp" port="$server_port") 
 
@@ -94,6 +116,9 @@ send_logs_relp() {
     # Adding TCP port to firewall
     check_command_success "firewall-cmd --permanent --add-port=$server_port/tcp" "----> The port $server_port/tcp was added successfully <----" ">>>> Failed to add $server_port/tcp port <<<<"
     check_command_success "firewall-cmd --reload" "----> The firewall-cmd was reloaded successfully <----" ">>>> Failed to reload firewall-cmd <<<<"
+
+    #create backup for /etc/rsyslog.conf
+    backup
 
     # Adding server address and port to rsyslog configuration
     echo -e "module(load="omrelp")\n*.* action(type="omrelp" target="$server_ip_address" port="$server_port")" >> /etc/rsyslog.d/client_relp.conf
@@ -131,6 +156,18 @@ send_logs_tls() {
 
 # Main function
 main() {
+echo -e "
+ , __                          _                
+/|/  \                        | |               
+ |___/  __ _|_  __, _|_  _    | |  __   __,  ,  
+ | \   /  \_|  /  |  |  |/    |/  /  \_/  | / \_
+ |  \_/\__/ |_/\_/|_/|_/|__/  |__/\__/ \_/|/ \/ 
+                                         /|     
+                                         \|     
+"
+
+
+
     # Install rsyslog
     check_command_success "dnf install -y rsyslog" "----> rsyslog installed successfully <----" ">>>> Failed to install rsyslog <<<<"
 

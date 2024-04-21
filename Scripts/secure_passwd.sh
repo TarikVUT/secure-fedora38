@@ -6,9 +6,9 @@
 # This script sets password complexity and password expiration.
 #This script was created to set password complexity and password expiration.
 passwd_path="/etc/security/pwquality.conf.d/"
-#passwd_path="/home/student/Temp"
 passwd_file="complex_password.conf"
 login_path="/etc/login.defs"
+login_path_backup="/root/secure_backup/login.defs.bkp"
 
 dcredit=0
 ucredit=0
@@ -40,6 +40,18 @@ the_recommended_config="## This parameter determines whether the password qualit
 ##  The maximum number of consecutive characters allowed from the same character class (e.g., consecutive uppercase letters, consecutive digits) \nmaxclassrepeat = 3 \n
 ##  The number of characters that must differ between the new password and the old password. \ndifok = 5 
 "
+
+backup(){
+
+# Check if the config file exists
+if [ -f "$login_path_backup" ]; then
+    echo "$login_path_backup backup for $login_path exist"
+else
+    echo "$login_path_backup does not exist, the backup will be created for $login_path"
+    cp $login_path $login_path_backup
+fi
+
+}
 
 check_command_success(){
 
@@ -225,6 +237,16 @@ existing_PASS_WARN_AGE=$(grep -i '^PASS_WARN_AGE' $login_path)
 }
 
 main(){
+ 	
+echo -e "
+ ____                                                             _ 
+/ ___|  ___  ___ _   _ _ __ ___   _ __   __ _ ___ _____      ____| |
+\___ \ / _ \/ __| | | | '__/ _ \ | '_ \ / _` / __/ __\ \ /\ / / _` |
+ ___) |  __/ (__| |_| | | |  __/ | |_) | (_| \__ \__ \\ V  V / (_| |
+|____/ \___|\___|\__,_|_|  \___| | .__/ \__,_|___/___/ \_/\_/ \__,_|
+                                 |_|   
+"
+
 
 	read -p "Do you want to want to set the password complexity (y/N): " rep1
 
@@ -256,6 +278,9 @@ main(){
 			The second phase is to set the password expiration
 
 			"	
+			#create the backup for /etc/login.defs
+			backup
+
 			apply_the_recommended_config_for_expiration
 		else
 
