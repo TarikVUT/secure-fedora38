@@ -688,7 +688,7 @@ Now the script for the security update will run every day and the script for the
 
 # Current state of the solution
 
-- [ ] Dual boot
+- [x] Dual boot
 - [x] Secure boot
 - [x] Partition structure and encryption of disks
 - [x] Set a strong password
@@ -703,7 +703,7 @@ Now the script for the security update will run every day and the script for the
     - [x] TCP
     - [x] RELP
     - [x] OVER TLS
-- [ ] Regular backup
-- [ ] Update (fail-safe update)
+- [x] Regular backup
+- [x] System update
 
 
