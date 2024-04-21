@@ -581,6 +581,9 @@ Refer to [Configuring a remote logging solution](https://access.redhat.com/docum
 
 ## 10- Update (fail-safe update)
 <a name="fail-safe"></a>
+To ensure that the system is always up to date without major intervention, we need to configure automatic updates using the Cronjob tool. Manual updates can lead to missing critical updates and~you need to have the latest updates and patches to keep the device safe from both security flaws and software errors. Cronjobs makes this easier by performing tasks automatically at certain intervals without any user intervention.
+
+To guarantee the security and safety of the system, it will undergo a daily security update and a comprehensive update every week. Additionally, system backups will occur daily, scheduled to run before each update.
 
 # Current state of the solution
 
