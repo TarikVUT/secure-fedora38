@@ -705,5 +705,10 @@ Now the script for the security update will run every day and the script for the
     - [x] OVER TLS
 - [x] Regular backup
 - [x] System update
+# The demonstration video
+
+
+https://github.com/TarikVUT/secure-fedora38/assets/78847793/54614b37-8eab-4afb-89f6-24078c57ec02
+
 
 
