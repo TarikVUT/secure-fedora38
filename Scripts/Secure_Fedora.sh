@@ -95,9 +95,14 @@ if [ "$an5" == "y" ]; then
 fi
 
 echo
-read -p "Do you to secure Network? [y/n]: " an6
+read -p "Do you to backup the system? [y/n]: " an6
 if [ "$an6" == "y" ]; then
-    echo hello
+    sh "$path/backup.sh"
+fi
+echo
+read -p "Do you to set regular update? [y/n]: " an7
+if [ "$an7" == "y" ]; then
+    sh "$path/regular_update.sh"
 fi
 }
 main

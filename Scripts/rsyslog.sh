@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Author: Tarik Alkanan
-# Note: This script is not completed yet.
+#
 
 # This script installs and configures rsyslog.
 

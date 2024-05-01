@@ -3,7 +3,6 @@
 # Author: Tarik Alkanan
 # Date: 10.04.2024
 #
-#    NOTE, THIS CODE IS NOT COMPLETED YET.
 #
 #This script secure openSSH
 # 1- Enable and start openSSH

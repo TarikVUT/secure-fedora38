@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Author: Tarik Alkanan
-# Note: This script is not completed yet.
+
 
 # This script sets password complexity and password expiration.
 #This script was created to set password complexity and password expiration.

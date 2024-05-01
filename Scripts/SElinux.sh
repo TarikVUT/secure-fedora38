@@ -2,7 +2,7 @@
 #
 # Author: Tarik Alkanan
 # Date: 10.04.2024
-# Note: This script is not completed yet.
+
 
 # This script activates SELinux
 
